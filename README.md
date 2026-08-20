@@ -1,5 +1,7 @@
 # The Battles of Napoleon Bonaparte
 
+<img width="1708" height="884" alt="image" src="https://github.com/user-attachments/assets/2964b79c-11cc-4a2e-bcd0-71b2e647acc0" />
+
 An interactive dark-themed map of **every engagement Napoleon Bonaparte
 personally commanded** — 71 of them, from the siege of Toulon in September 1793
 to Waterloo in June 1815 — with a filter dock, a live statistics dashboard and a
