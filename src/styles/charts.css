@@ -1,0 +1,212 @@
+/* ==================================================================
+   Statistics dock: headline tiles + Recharts styling.
+   ================================================================== */
+.stats {
+  padding: 12px 16px 18px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tile {
+  position: relative;
+  padding: 10px 11px 11px;
+  background: linear-gradient(160deg, rgba(236, 227, 210, 0.05), rgba(236, 227, 210, 0.015));
+  border: 1px solid var(--panel-border-soft);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.tile-wide {
+  grid-column: span 2;
+}
+
+.tile-wide::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 162, 39, 0.16), transparent 68%);
+  pointer-events: none;
+}
+
+.tile-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.tile-value {
+  display: block;
+  font-family: var(--font-num);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--parchment);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+}
+
+.tile-wide .tile-value {
+  font-size: 32px;
+}
+
+.tile-value.is-victory {
+  color: var(--gold-400);
+}
+
+.tile-value.is-defeat {
+  color: var(--blue-400);
+}
+
+.tile-sub {
+  margin-left: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.tile-foot {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.chart-block {
+  margin-bottom: 16px;
+}
+
+.chart-block > .section-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--parchment-faint);
+  letter-spacing: 0.14em;
+}
+
+.chart-note {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.chart-frame {
+  width: 100%;
+  padding: 4px 0 0;
+}
+
+.chart-caption {
+  margin: 6px 0 0;
+  font-size: 10px;
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.stats-empty {
+  margin: 18px 4px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--parchment-faint);
+}
+
+/* Recharts internals */
+.recharts-surface {
+  overflow: visible;
+}
+
+.recharts-wrapper {
+  font-family: var(--font-ui);
+}
+
+.recharts-cartesian-axis-tick-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+  z-index: 20;
+}
+
+.chart-tip {
+  min-width: 128px;
+  padding: 8px 10px;
+  background: rgba(10, 12, 16, 0.96);
+  border: 1px solid rgba(201, 162, 39, 0.28);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px -12px rgba(0, 0, 0, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.chart-tip-head {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--panel-border-soft);
+}
+
+.chart-tip-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.chart-tip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.chart-tip-name {
+  color: var(--parchment-faint);
+}
+
+.chart-tip-val {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--parchment);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  .stats {
+    padding: 4px 16px 18px;
+  }
+  .tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .tile-value {
+    font-size: 23px;
+  }
+  .tile-wide .tile-value {
+    font-size: 29px;
+  }
+}

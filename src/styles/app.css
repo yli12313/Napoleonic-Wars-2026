@@ -1,0 +1,420 @@
+/* ==================================================================
+   Layout: a full-bleed map with layered panels floating over it.
+   ================================================================== */
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ---------------------------------------------------------- header */
+.app-header {
+  position: relative;
+  z-index: 900;
+  flex: 0 0 auto;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 22px;
+  background: linear-gradient(180deg, rgba(8, 9, 12, 0.96), rgba(8, 9, 12, 0.86));
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.16);
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.95);
+}
+
+/* the gilt rule under the header */
+.app-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-600) 12%, rgba(201, 162, 39, 0.25) 46%, transparent 92%);
+  opacity: 0.75;
+}
+
+.hdr-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.monogram {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--gold-400);
+  border: 1px solid rgba(201, 162, 39, 0.45);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 26%, rgba(240, 205, 106, 0.2), transparent 62%),
+    rgba(201, 162, 39, 0.06);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.06), inset 0 0 14px rgba(201, 162, 39, 0.1);
+  text-shadow: 0 0 16px rgba(232, 185, 63, 0.35);
+  padding-bottom: 2px;
+}
+
+.hdr-title-wrap {
+  min-width: 0;
+}
+
+.hdr-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: 0.012em;
+  color: var(--parchment);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hdr-title-em {
+  color: var(--gold-400);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.006em;
+}
+
+.hdr-sub {
+  margin: 2px 0 0;
+  font-size: 10.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--parchment-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hdr-sub-num {
+  color: var(--gold-600);
+  font-weight: 600;
+}
+
+.hdr-dot {
+  padding: 0 8px;
+  color: var(--gold-700);
+}
+
+.hdr-actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.hdr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--parchment-faint);
+  background: rgba(236, 227, 210, 0.03);
+  border: 1px solid var(--panel-border-soft);
+  border-radius: 99px;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.hdr-btn:hover {
+  color: var(--parchment);
+  border-color: rgba(201, 162, 39, 0.35);
+  background: rgba(201, 162, 39, 0.07);
+}
+
+.hdr-btn.is-on {
+  color: var(--gold-400);
+  border-color: rgba(201, 162, 39, 0.42);
+  background: rgba(201, 162, 39, 0.1);
+}
+
+.hdr-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* ----------------------------------------------------------- docks */
+.dock {
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  z-index: 700;
+  width: 316px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  transition: transform var(--dur-slow) var(--ease), opacity var(--dur) var(--ease),
+    visibility var(--dur) var(--ease);
+}
+
+/* The scrolling body of a dock. */
+.dock-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* The filter dock keeps its live count pinned outside the scroll area. */
+.dock-panel.is-filters {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dock-panel.is-filters .filters {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.dock-panel.is-filters .filters-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dock-panel.is-filters .filters-footer {
+  position: static;
+}
+
+.dock-left {
+  left: 16px;
+}
+
+.dock-right {
+  right: 16px;
+  width: 340px;
+}
+
+.dock.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.dock-left.is-hidden {
+  transform: translateX(calc(-100% - 24px));
+}
+
+.dock-right.is-hidden {
+  transform: translateX(calc(100% + 24px));
+}
+
+.dock-head {
+  padding: 16px 18px 0;
+}
+
+.dock-head .section-label {
+  font-size: 9.5px;
+  color: var(--parchment-faint);
+  letter-spacing: 0.18em;
+}
+
+/* --------------------------------------------------- mobile sheets */
+.sheet-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 799;
+  background: rgba(4, 5, 7, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease);
+}
+
+.sheet-scrim.is-on {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sheet {
+  position: absolute;
+  z-index: 800;
+  left: 8px;
+  right: 8px;
+  bottom: 54px;
+  max-height: min(74vh, 620px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 16px 16px 0 0;
+  transform: translateY(calc(100% + 60px));
+  visibility: hidden;
+  transition: transform var(--dur-slow) var(--ease), visibility var(--dur-slow) var(--ease);
+  overscroll-behavior: contain;
+}
+
+.sheet.is-open {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.sheet-grip {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 22px;
+  background: linear-gradient(180deg, rgba(14, 16, 21, 0.98), rgba(14, 16, 21, 0.6));
+  border-radius: 16px 16px 0 0;
+}
+
+.sheet-grip::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 9px;
+  width: 40px;
+  height: 3px;
+  margin-left: -20px;
+  border-radius: 99px;
+  background: var(--ink-500);
+}
+
+.sheet-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--parchment-faint);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.sheet-close:hover {
+  color: var(--parchment);
+  background: rgba(236, 227, 210, 0.06);
+}
+
+.sheet-body {
+  padding-bottom: 14px;
+}
+
+.tabbar {
+  position: absolute;
+  z-index: 801;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 6px;
+  background: rgba(10, 11, 14, 0.9);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--panel-border-soft);
+  border-radius: 12px;
+  box-shadow: var(--panel-shadow);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--parchment-faint);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+
+.tab.is-on {
+  color: var(--gold-400);
+  background: rgba(201, 162, 39, 0.1);
+  border-color: rgba(201, 162, 39, 0.3);
+}
+
+.tab-badge {
+  min-width: 22px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  color: var(--parchment-dim);
+  background: rgba(236, 227, 210, 0.08);
+  border-radius: 99px;
+}
+
+.tab-badge.is-dirty {
+  color: var(--ink-900);
+  background: var(--gold-500);
+}
+
+@media (max-width: 900px) {
+  .app-header {
+    padding: 0 14px;
+  }
+  .monogram {
+    width: 32px;
+    height: 32px;
+    font-size: 19px;
+  }
+  .hdr-title {
+    font-size: 18px;
+  }
+  .hdr-sub {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (max-width: 420px) {
+  .hdr-title {
+    font-size: 16.5px;
+  }
+  .hdr-sub .hdr-dot,
+  .hdr-sub-tail {
+    display: none;
+  }
+}
+
+/* Below 1180px the two docks would crowd the map -- narrow them. */
+@media (min-width: 901px) and (max-width: 1240px) {
+  .dock-left {
+    width: 282px;
+  }
+  .dock-right {
+    width: 300px;
+  }
+}
